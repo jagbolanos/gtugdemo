@@ -1,0 +1,21 @@
+<html>
+<head>
+    <title>Listar Google Docs</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+    <form method="POST" action="#">
+    {% csrf_token %}
+    Correo: <input type="text" name="email" />
+    Clave: <input type="password" name="password" />
+    <input type="submit" value="Obtener" />
+    </form>
+    <div id="documentos">
+        <ul>
+        {% for entry in feed %}
+            <li><a href="https://docs.google.com/leaf?id={{entry.id}}">{{ entry.text }} </a></li>
+        {% endfor %}
+        </ul>
+    </div>
+</body>
+</html>

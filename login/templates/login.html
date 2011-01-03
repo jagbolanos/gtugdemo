@@ -1,0 +1,44 @@
+<html>
+<head>
+    <title>Register or Login</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+</head>
+<body>
+    <form method='POST' action='/login/register/'>
+    {% csrf_token %}
+        <table>
+        <caption>Registration Form</caption>
+        <tr><td>Firstname</td><td><input type='text' name='firstname' /></td></tr>
+        <tr><td>Lastname</td><td><input type='text' name='lastname' /></td></tr>
+        <tr><td>Email</td><td><input type='text' name='email' /></td></tr>
+        <tr><td>Password</td><td><input type='password' name='password' /></td></tr>
+        <tr><td>Password verify</td><td><input type='password' name='passwordverify' /></td></tr>
+        </table>
+        <input type='hidden' name='next' value='{{next}}' />
+        <input type='submit' value='Register' />
+    </form>
+
+    <form method='POST' action='/login/'>
+    {% csrf_token %}
+        <table>
+        <caption>Login Form</caption>
+        <tr><td>Email</td><td><input type='text' name='email' /></td></tr>
+        <tr><td>Password</td><td><input type='password' name='password' /></td></tr>
+        </table>
+        <input type='hidden' name='next' value='{{next}}' />
+        <input type='submit' value='Login' />
+    </form>
+
+    <form method='POST' action='/login/google/'>
+    {% csrf_token %}
+        <input type='hidden' name='next' value='{{next}}' />
+        <input type='submit' value='Google' />
+    </form>
+
+    <form method='POST' action='/login/escolarea.com/'>
+    {% csrf_token %}
+        <input type='hidden' name='next' value='{{next}}' />
+        <input type='submit' value='Escolarea' />
+    </form>
+</body>
+</html>
