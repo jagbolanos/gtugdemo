@@ -20,7 +20,7 @@ from openid import oidutil, fetchers, urinorm
 from openid import yadis
 from openid.yadis.etxrd import nsTag, XRDSError, XRD_NS_2_0
 from openid.yadis.services import applyFilter as extractServices
-from openid.yadis.discover import discover as yadisDiscover
+from openid.yadis.discover import discoveryGoogleAppsHostedDomain, discover as yadisDiscover
 from openid.yadis.discover import DiscoveryFailure
 from openid.yadis import xrires, filters
 from openid.yadis import xri
@@ -371,6 +371,15 @@ def getOPOrUserServices(openid_services):
     return op_services or openid_services
 
 def discoverYadis(uri):
+    print "ENTRA POR ACA"
+    yadis_url , services = discoverYadisTemplate(uri, yadisDiscover)
+    if not services:
+        print "ENTRA POR ACA"
+        yadis_url, services = discoverYadisTemplate(uri, discoveryGoogleAppsHostedDomain)
+    print "ENTRA POR ACA"
+    return yadis_url, services
+
+def discoverYadisTemplate(uri, discover_function):
     """Discover OpenID services for a URI. Tries Yadis and falls back
     on old-style <link rel='...'> discovery if Yadis fails.
 
@@ -386,7 +395,8 @@ def discoverYadis(uri):
     # came back for that URI at all.  I don't think falling back
     # to OpenID 1.0 discovery on the same URL will help, so don't
     # bother to catch it.
-    response = yadisDiscover(uri)
+    #response = yadisDiscover(uri)
+    response = discover_function(uri)
 
     yadis_url = response.normalized_uri
     body = response.response_text

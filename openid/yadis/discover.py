@@ -8,6 +8,7 @@ from openid import fetchers
 from openid.yadis.constants import \
      YADIS_HEADER_NAME, YADIS_CONTENT_TYPE, YADIS_ACCEPT_HEADER
 from openid.yadis.parsehtml import MetaNotFound, findHTMLMeta
+from urllib import urlencode
 
 class DiscoveryFailure(Exception):
     """Raised when a YADIS protocol error occurs in the discovery process"""
@@ -51,6 +52,10 @@ class DiscoveryResult(object):
         """Is the response text supposed to be an XRDS document?"""
         return (self.usedYadisLocation() or
                 self.content_type == YADIS_CONTENT_TYPE)
+
+def discoveryGoogleAppsHostedDomain(uri):
+    newuri = 'https://www.google.com/accounts/o8/user-xrds?%s' % urlencode({'uri':uri})
+    return discover(newuri)
 
 def discover(uri):
     """Discover services for a given URI.

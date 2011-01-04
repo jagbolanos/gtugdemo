@@ -194,7 +194,7 @@ from urlparse import urlparse, urldefrag
 from openid import fetchers
 
 from openid.consumer.discover import discover, OpenIDServiceEndpoint, \
-     DiscoveryFailure, OPENID_1_0_TYPE, OPENID_1_1_TYPE, OPENID_2_0_TYPE
+     DiscoveryFailure, OPENID_1_0_TYPE, OPENID_1_1_TYPE, OPENID_2_0_TYPE, OPENID_IDP_2_0_TYPE
 from openid.message import Message, OPENID_NS, OPENID2_NS, OPENID1_NS, \
      IDENTIFIER_SELECT, no_default, BARE_NS
 from openid import cryptutil
@@ -205,6 +205,7 @@ from openid.dh import DiffieHellman
 from openid.store.nonce import mkNonce, split as splitNonce
 from openid.yadis.manager import Discovery
 from openid import urinorm
+import traceback
 
 
 __all__ = ['AuthRequest', 'Consumer', 'SuccessResponse',
@@ -409,7 +410,7 @@ class Consumer(object):
         """
 
         endpoint = self.session.get(self._token_key)
-
+        print str(endpoint)
         message = Message.fromPostArgs(query)
         response = self.consumer.complete(message, endpoint, current_url)
 

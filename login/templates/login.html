@@ -35,8 +35,9 @@
         <input type='submit' value='Google' />
     </form>
 
-    <form method='POST' action='/login/escolarea.com/'>
+    <form method='POST' action='/login/google/'>
     {% csrf_token %}
+        <input type='text' name='domain' value='escolarea.com' />
         <input type='hidden' name='next' value='{{next}}' />
         <input type='submit' value='Escolarea' />
     </form>

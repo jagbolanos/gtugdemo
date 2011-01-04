@@ -33,12 +33,15 @@ def index(request):
         user = authenticate(username=username,password=password)
         if user is not None:
             login(request, user)
-            redirect(to='/')
 
+    if request.user is not None and request.user.is_authenticated():
+            return redirect(to="http://%s/" % request.get_host())
+        
     return render_to_response('login.html', locals(), context_instance=RequestContext(request))
 
 def logout_view(request):
     logout(request)
+    request.session.flush()
     return index(request)
 
 def register_user(username, firstname, lastname, email, password=None):
@@ -69,7 +72,7 @@ def register(request):
             print "El usuario ya esta registrado"
 
 
-    return redirect(to='/')
+    return redirect(to='http://%s/' % request.get_host())
 
 
     #SCOPES = ['https://docs.google.com/feeds/', 'https://www.google.com/calendar/feeds/']
@@ -86,9 +89,14 @@ def domainlogin(request, domain):
     return libopenid(request, domain)
 
 def defaultlogin(request):
+    if 'domain' in request.REQUEST:
+        return domainlogin(request, request.REQUEST['domain']) 
     return domainlogin(request, 'default') 
 
 def libopenid(request, domain):
+    if request.user is not None and request.user.is_authenticated():
+            return redirect(to="http://%s/" % request.get_host())
+
     if domain is 'default':
         discovery_url = "https://www.google.com/accounts/o8/id"
     else:
@@ -119,9 +127,11 @@ def libopenid(request, domain):
 
 def callback(request):
     consumer = Consumer(request.session, FileOpenIDStore('/tmp/gtugdemo'))
+    
     openid_response = consumer.complete(request.REQUEST, 'http://%s/login/callback' % request.get_host())
-
+    
     if openid_response.status == SUCCESS:
+        print "SUCCESS"
         ax_response = ax.FetchResponse.fromSuccessResponse(openid_response)
         if ax_response:
             ax_items = {
@@ -138,13 +148,15 @@ def callback(request):
             lastname = ''.join(ax_items['lastname'])
             email = ''.join(ax_items['email'])
             register_user(username, firstname , lastname , email)
-            #print email
+            print "%s %s %s" % (firstname, lastname, email)
             user = User.objects.get(username=username)
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
-            redirect(to='/')
+            return redirect(to='http://%s/' % request.get_host())
                 
-
+    if openid_response.status == FAILURE:
+        print "NOOOOOOOOOOO: %s" % openid_response.message
+    
     return render_to_response('login.html', locals(), context_instance=RequestContext(request))
 
 def hardcodedopenid(request, domain):
