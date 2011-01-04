@@ -38,7 +38,7 @@ def index(request):
 
     if request.user is not None and request.user.is_authenticated():
             return redirect(to="http://%s/" % request.get_host())
-        
+    message = "http://%s/" % request.get_host()
     return render_to_response('login.html', locals(), context_instance=RequestContext(request))
 
 def logout_view(request):

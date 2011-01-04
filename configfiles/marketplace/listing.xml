@@ -1,0 +1,11 @@
+<ListingManifest>
+  <SubListings>
+    <SubListing>
+      <DisplayName>Free edition</DisplayName>
+      <EditionId>free</EditionId>
+      <PaymentModel>FREE</PaymentModel>
+      <SeatCount>10</SeatCount>
+    </SubListing>
+  </SubListings>
+</ListingManifest>
+
