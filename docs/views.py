@@ -1,3 +1,4 @@
+"""
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 import gdata.docs.service
@@ -18,3 +19,5 @@ def list(request):
             feed.append(Entry(entry.title.text, entry.resourceId.text[entry.resourceId.text.find(':')+1:]))
 
     return render_to_response('list.html', locals(), context_instance=RequestContext(request))
+    
+"""
