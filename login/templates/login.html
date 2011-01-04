@@ -2,8 +2,14 @@
 <head>
     <title>Register or Login</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style>
+        #error {
+            color: red;
+        }
+    </style>
 </head>
 <body>
+    <span id="error">{{message}}</span>
     <form method='POST' action='/login/register/'>
     {% csrf_token %}
         <table>
@@ -39,7 +45,7 @@
     {% csrf_token %}
         <input type='text' name='domain' value='escolarea.com' />
         <input type='hidden' name='next' value='{{next}}' />
-        <input type='submit' value='Escolarea' />
+        <input type='submit' value='Federated' />
     </form>
 </body>
 </html>

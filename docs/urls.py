@@ -2,5 +2,5 @@ from django.conf.urls.defaults import *
 
 
 urlpatterns = patterns('',
-    (r'^list/', 'docs.views.list'),
+    (r'^list/', 'gtugdemo.docs.views.list'),
 )

@@ -33,6 +33,8 @@ def index(request):
         user = authenticate(username=username,password=password)
         if user is not None:
             login(request, user)
+        else:
+            message = "Wrong username and/or password"
 
     if request.user is not None and request.user.is_authenticated():
             return redirect(to="http://%s/" % request.get_host())
@@ -69,10 +71,10 @@ def register(request):
         if register_user(username, firstname, lastname, email, password):
             return index(request)
         else:
-            print "El usuario ya esta registrado"
+            message = "El usuario ya esta registrado"
 
 
-    return redirect(to='http://%s/' % request.get_host())
+    return render_to_response('login.html', locals(), context_instance=RequestContext(request))
 
 
     #SCOPES = ['https://docs.google.com/feeds/', 'https://www.google.com/calendar/feeds/']
@@ -112,7 +114,7 @@ def libopenid(request, domain):
     auth_request.addExtension(ax_request)
 
     redirect_url = auth_request.redirectURL(realm='http://%s/' % request.get_host(), return_to='http://%s/login/callback' % request.get_host())
-
+    """
     oauth_query = {
              'openid.ns.oauth': 'http://specs.openid.net/extensions/oauth/1.0',
              'openid.oauth.consumer': request.get_host(),
@@ -120,9 +122,7 @@ def libopenid(request, domain):
         }
 
     redirect_url += "&%s" % urlencode(oauth_query)
-    print redirect_url
-    #print str(request.session.keys())
-    #return render_to_response('login.html', locals(), context_instance=RequestContext(request))
+    """
     return redirect(to=redirect_url) 
 
 def callback(request):
@@ -131,7 +131,6 @@ def callback(request):
     openid_response = consumer.complete(request.REQUEST, 'http://%s/login/callback' % request.get_host())
     
     if openid_response.status == SUCCESS:
-        print "SUCCESS"
         ax_response = ax.FetchResponse.fromSuccessResponse(openid_response)
         if ax_response:
             ax_items = {
@@ -148,42 +147,11 @@ def callback(request):
             lastname = ''.join(ax_items['lastname'])
             email = ''.join(ax_items['email'])
             register_user(username, firstname , lastname , email)
-            print "%s %s %s" % (firstname, lastname, email)
             user = User.objects.get(username=username)
             user.backend='django.contrib.auth.backends.ModelBackend'
             login(request, user)
             return redirect(to='http://%s/' % request.get_host())
-                
-    if openid_response.status == FAILURE:
-        print "NOOOOOOOOOOO: %s" % openid_response.message
+        else:
+            message = openid_response.message
     
     return render_to_response('login.html', locals(), context_instance=RequestContext(request))
-
-def hardcodedopenid(request, domain):
-    parameters = {
-        'openid.mode': "checkid_setup",
-        'openid.ns': "http://specs.openid.net/auth/2.0",
-        'openid.return_to': 'http://%s/login/callback' % request.get_host(),
-        #'openid.return_to': 'http://test.escolarea.com/login/callback',                
-        'openid.claimed_id': 'http://specs.openid.net/auth/2.0/identifier_select',
-        'openid.identity':'http://specs.openid.net/auth/2.0/identifier_select',
-        'openid.assoc_handle': CONSUMER_SECRET,
-        'openid.realm': 'http://%s' % request.get_host(),
-        'openid.ns.ax': "http://openid.net/srv/ax/1.0",
-        'openid.ax.mode': "fetch_request",
-        'openid.ax.required': "firstname,lastname,email",
-        'openid.ax.type.email': "http://axschema.org/contact/email",
-        'openid.ax.type.firstname': "http://axschema.org/namePerson/first",
-        'openid.ax.type.lastname': "http://axschema.org/namePerson/last",
-        'openid.ns.oauth': 'http://specs.openid.net/extensions/oauth/1.0',
-        'openid.oauth.consumer': CONSUMER_KEY,
-        'openid.oauth.scope': ' '.join(OAUTH_SCOPE), 
-        }
-
-    if domain is 'default':
-        url = "https://www.google.com/accounts/o8/ud?%s" % urlencode(parameters)
-    else:
-        url = "https://www.google.com/a/%s/o8/ud?be=o8&%s" % (domain, urlencode(parameters))
-
-    print url
-    return redirect(to=url)
