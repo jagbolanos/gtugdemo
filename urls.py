@@ -5,10 +5,10 @@ from django.conf.urls.defaults import *
 # admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^$', 'gtugdemo.demo.views.index'),
-    (r'^docs/', include('gtugdemo.docs.urls')),
-    (r'^login/', include('gtugdemo.login.urls')),
-    (r'^logout/$', 'gtugdemo.login.views.logout_view'),
+    (r'^$', 'demo.views.index'),
+    (r'^docs/', include('docs.urls')),
+    (r'^login/', include('login.urls')),
+    (r'^logout/$', 'login.views.logout_view'),
 
     # Uncomment the admin/doc line below and add 'django.contrib.admindocs' 
     # to INSTALLED_APPS to enable admin documentation:

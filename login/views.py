@@ -1,7 +1,7 @@
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
-import gdata.gauth
-import gdata.docs.client
+#import gdata.gauth
+#import gdata.docs.client
 from django.utils.http import urlencode
 from openid.consumer.consumer import Consumer
 from openid.store.filestore import FileOpenIDStore
