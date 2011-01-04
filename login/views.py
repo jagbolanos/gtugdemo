@@ -110,7 +110,7 @@ def libopenid(request, domain):
     ax_request = ax.FetchRequest()
     ax_request.add(ax.AttrInfo('http://axschema.org/namePerson/first',required=True))
     ax_request.add(ax.AttrInfo('http://axschema.org/namePerson/last',required=True))
-    ax_request.add(ax.AttrInfo('http://axschema.org/contact/email',required=True))
+    ax_request.add(ax.AttrInfo('http://schema.openid.net/contact/email',required=True))
     auth_request.addExtension(ax_request)
 
     redirect_url = auth_request.redirectURL(realm='http://%s/' % request.get_host(), return_to='http://%s/login/callback' % request.get_host())
@@ -139,7 +139,7 @@ def callback(request):
                     'lastname': ax_response.get(
                         'http://axschema.org/namePerson/last'),
                     'email': ax_response.get(
-                        'http://axschema.org/contact/email'),
+                        'http://schema.openid.net/contact/email'),
                     }
             
             username = ''.join(ax_items['email'])
