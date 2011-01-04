@@ -113,7 +113,12 @@ def libopenid(request, domain):
     ax_request.add(ax.AttrInfo('http://schema.openid.net/contact/email',required=True))
     auth_request.addExtension(ax_request)
 
-    redirect_url = auth_request.redirectURL(realm='http://%s/' % request.get_host(), return_to='http://%s/login/callback' % request.get_host())
+    if request.get_host() == 'localhost:8000':
+        realm = 'http://%s/' % str(request.get_host())
+        print realm
+    else:
+        realm = 'http://*.escolarea.com/'
+    redirect_url = auth_request.redirectURL(realm=realm , return_to='http://%s/login/callback' % request.get_host())
     """
     oauth_query = {
              'openid.ns.oauth': 'http://specs.openid.net/extensions/oauth/1.0',

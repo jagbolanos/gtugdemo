@@ -28,7 +28,7 @@
 
   <!-- Declare our OpenID realm so our app is white listed -->
   <Extension id="realm" type="openIdRealm">
-    <Url>http://gtug.escolarea.com/</Url>
+    <Url>http://*.escolarea.com/</Url>
   </Extension>
 
   <!-- Need access to the Calendar feed -->
