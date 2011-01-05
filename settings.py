@@ -1,5 +1,6 @@
 # Django settings for gtugdemo project.
 import os
+import site_logging
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG

@@ -9,7 +9,7 @@ from openid.consumer.consumer import AuthRequest, SUCCESS, FAILURE, CANCEL
 from openid.extensions import ax
 from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.models import User
-
+import logging
 
 CONSUMER_KEY = 'anonymous'
 CONSUMER_SECRET = 'anonymous'
@@ -113,11 +113,10 @@ def libopenid(request, domain):
     ax_request.add(ax.AttrInfo('http://schema.openid.net/contact/email',required=True))
     auth_request.addExtension(ax_request)
 
-    if request.get_host() == 'localhost:8000':
-        realm = 'http://%s/' % str(request.get_host())
-        print realm
-    else:
-        realm = 'http://*.escolarea.com/'
+    realm = 'http://%s/' % str(request.get_host())
+    
+    logging.warn("REAL: %s" % realm)
+        
     redirect_url = auth_request.redirectURL(realm=realm , return_to='http://%s/login/callback' % request.get_host())
     """
     oauth_query = {

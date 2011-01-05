@@ -1,78 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <ApplicationManifest xmlns="http://schemas.google.com/ApplicationManifest/2009">
-  <!-- Support info to show in the marketplace & control panel -->
-  <Support>
-    <!-- URL explaining how customers get support. -->
-    <Link rel="support" href="http://example.com/support" />
-
-    <!-- URL that is displayed to admins during the deletion process, to specify policies such as data retention, how to claim accounts, etc. -->
-    <Link rel="deletion-policy" href="http://example.com/deletion-policy" />
-  </Support>
-
   <!-- Name and description pulled from message bundles -->
   <Name>GTUG Balam Open ID Demo</Name>
   <Description>This DEMO is a fully functional OpenID SSO App.</Description>
-
+  <!-- Administrators and users will be sent to this URL for application support -->
+  
+  <Support>
+    <Link rel="support" href="http://cbardal.com/support" />
+  </Support>
+  
   <!-- Show this link in Google's universal navigation for all users -->
   <Extension id="navLink" type="link">
     <Name>GTUG Balam DEMO</Name>
-    <Url>http://gtug.escolarea.com/login/${DOMAIN_NAME}</Url>
-    <!-- This app also uses the Calendar API -->
-    <Scope ref="calendarFeed"/>
-    <Scope ref="contactsFeed"/>
-    <Scope ref="documentsFeed"/>
-    <Scope ref="gmailFeed"/>
-    <Scope ref="spreadsheetsFeed"/>
-    <Scope ref="usercontentFeed"/>
+    <Url>http://cbardal.com/login/${DOMAIN_NAME}</Url>
   </Extension>
 
   <!-- Declare our OpenID realm so our app is white listed -->
   <Extension id="realm" type="openIdRealm">
-    <Url>http://*.escolarea.com/</Url>
+    <Url>http://cbardal.com/</Url>
   </Extension>
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="calendarFeed">
-    <Url>http://www.google.com/calendar/feeds/</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="contactsFeed">
-    <Url>http://www.google.com/m8/feeds/</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="documentsFeed">
-    <Url>http://docs.google.com/feeds/</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="spreadsheetsFeed">
-    <Url>http://spreadsheets.google.com/feeds/</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="usercontentFeed">
-    <Url>http://docs.googleusercontent.com</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-
-  <!-- Need access to the Calendar feed -->
-  <Scope id="gmailFeed">
-    <Url>http://mail.google.com/mail/feed/atom/</Url>
-    <Reason>This demo needs it.</Reason>
-  </Scope>
-
-  <!-- Configures extensions available for the standard edition of the application. -->
-  <Edition id="free">
-    <Name>Free Edition</Name>
-    <Extension ref="navLink"/>
-  </Edition>
-
 </ApplicationManifest>
 
