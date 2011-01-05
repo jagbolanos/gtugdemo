@@ -127,6 +127,7 @@ def libopenid(request, domain):
 
     redirect_url += "&%s" % urlencode(oauth_query)
     """
+    logging.warn(redirect_url)
     return redirect(to=redirect_url) 
 
 def callback(request):
